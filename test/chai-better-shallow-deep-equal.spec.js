@@ -98,12 +98,20 @@ describe("chai-better-shallow-deep-equal", () => {
 
     it("should allow adding a match", () => {
       expect(() => {
-        chaiBetterShallowDeepEqual.addMatch("FooType", "string", () => {});
+        chaiBetterShallowDeepEqual.addMatch({
+          leftType: "FooType",
+          rightType: "string",
+          handler: () => {}
+        });
       }, "not to throw");
     });
 
     it("should fail if the added handler does not return replacements", () => {
-      chaiBetterShallowDeepEqual.addMatch("FooType", "string", () => {});
+      chaiBetterShallowDeepEqual.addMatch({
+        leftType: "FooType",
+        rightType: "string",
+        handler: () => {}
+      });
 
       expect(
         () => {
@@ -120,7 +128,11 @@ describe("chai-better-shallow-deep-equal", () => {
     it("should error if the left hand type does not exist", function() {
       expect(
         () => {
-          chaiBetterShallowDeepEqual.addMatch("BarType", "string", () => {});
+          chaiBetterShallowDeepEqual.addMatch({
+            leftType: "BarType",
+            rightType: "string",
+            handler: () => {}
+          });
         },
         "to throw an error satisfying",
         "to equal snapshot",
@@ -134,7 +146,11 @@ describe("chai-better-shallow-deep-equal", () => {
     it("should error if the right hand type does not exist", function() {
       expect(
         () => {
-          chaiBetterShallowDeepEqual.addMatch("string", "BarType", () => {});
+          chaiBetterShallowDeepEqual.addMatch({
+            leftType: "string",
+            rightType: "BarType",
+            handler: () => {}
+          });
         },
         "to throw an error satisfying",
         "to equal snapshot",
@@ -148,7 +164,11 @@ describe("chai-better-shallow-deep-equal", () => {
     it("should error if both types do not exist", function() {
       expect(
         () => {
-          chaiBetterShallowDeepEqual.addMatch("BarType", "BazType", () => {});
+          chaiBetterShallowDeepEqual.addMatch({
+            leftType: "BarType",
+            rightType: "BazType",
+            handler: () => {}
+          });
         },
         "to throw an error satisfying",
         "to equal snapshot",
@@ -160,12 +180,27 @@ describe("chai-better-shallow-deep-equal", () => {
       );
     });
 
+    it("should error no options were supplied", function() {
+      expect(
+        () => {
+          chaiBetterShallowDeepEqual.addMatch(null);
+        },
+        "to throw an error satisfying",
+        "to equal snapshot",
+        expect.unindent`
+          Issues encountered while adding the match:
+            - no handler function was supplied
+        `
+      );
+    });
+
     describe("with an added match", () => {
       it("should fail and use the type in the diff", () => {
-        chaiBetterShallowDeepEqual.addMatch("FooType", "string", (lhs, rhs) => [
-          `foo${lhs.foo}`,
-          rhs
-        ]);
+        chaiBetterShallowDeepEqual.addMatch({
+          leftType: "FooType",
+          rightType: "string",
+          handler: (lhs, rhs) => [`foo${lhs.foo}`, rhs]
+        });
 
         expect(() => {
           chaiExpect({ thing: { foo: "bar" } }).to.shallowDeepEqual({
