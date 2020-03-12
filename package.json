@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Chai shallowDeepEqual replacement that wraps Unexpected",
   "main": "lib/chai-better-shallow-deep-equal.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "coverage": "nyc --reporter=lcov --reporter=text mocha",
     "lint": "eslint . && prettier --check '**/*.js'",
