@@ -8,7 +8,15 @@
     "lint": "eslint . && prettier --check '**/*.js'",
     "test": "mocha"
   },
-  "keywords": [],
+  "keywords": [
+    "chai",
+    "chai-plugin",
+    "objects",
+    "assertions",
+    "testing",
+    "shallow",
+    "deep"
+  ],
   "author": "Alex J Burke <alex@alexjeffburke.com>",
   "repository": {
     "type": "git",
