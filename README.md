@@ -4,6 +4,10 @@ This module provides a drop-in replacement `shallowDeepEqual`
 assertion for [chai](https://www.chaijs.com) that uses strict
 semantics and an intuitive output diff.
 
+[![NPM version](https://img.shields.io/npm/v/chai-better-shallow-deep-equal.svg)](https://www.npmjs.com/package/chai-better-shallow-deep-equal)
+[![Build Status](https://img.shields.io/travis/alexjeffburke/chai-better-shallow-deep-equal/master.svg)](https://travis-ci.org/alexjeffburke/chai-better-shallow-deep-equal)
+[![Coverage Status](https://img.shields.io/coveralls/alexjeffburke/chai-better-shallow-deep-equal/master.svg)](https://coveralls.io/r/alexjeffburke/chai-better-shallow-deep-equal?branch=master)
+
 Under the hood the library wraps the [Unexpected](https://unexpected.js.org)
 library, specifically making use of the structural
 ["to satisfy"](https://unexpected.js.org/assertions/any/to-satisfy/) assertion.
