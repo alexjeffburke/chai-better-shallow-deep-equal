@@ -4,13 +4,13 @@ This module provides a drop-in replacement `shallowDeepEqual`
 assertion for [chai](https://www.chaijs.com) that uses strict
 semantics and an intuitive output diff.
 
-Under the hood the library wraps the [Unexpected](http://unexpected.js.org)
+Under the hood the library wraps the [Unexpected](https://unexpected.js.org)
 library, specifically making use of the structural
-["to satify"](http://unexpected.js.org/assertions/any/to-satisfy/) assertion.
+["to satisfy"](https://unexpected.js.org/assertions/any/to-satisfy/) assertion.
 
 ## Use
 
-Once installed the plugin can simply be pulled in with require and used:
+Once installed the plugin can be simply imported and used as a plugin:
 
 ```js
 const chai = require("chai");
@@ -35,26 +35,35 @@ const chaiBetterShallowDeepEqual = require("chai-better-shallow-deep-equal");
 
 chaiBetterShallowDeepEqual.addType({
   name: "CustomDate",
-  base: "object",
+  base: "date",
   identify: obj => obj && obj._isCustomDate
 });
 ```
 
-In the example above, we are trying to single out something
-in a test suite that is a custom date by `identify()`ing some
-property of it (in this case a particular property). This API
-accepts the same options as the Unexpected
-[addType()](http://unexpected.js.org/api/addType/) method.
+In the example above, we are trying to single out certain objects
+that occur within a hypthetical test suite that use custom dates
+by checking whether they have an "isCustomDate" property.
+
+Given our definition of the `identify()` method above, when the
+plugin encounters such objects it will think of them as `CustomDate`
+and be aware that they extend the behavior of the builtin date type.
+
+This API accepts the same options as the Unexpected
+[addType()](https://unexpected.js.org/api/addType/) method.
+Please consult the link for more detailed description.
 
 ### Custom Matching
 
-With custom types are in the picture, you may also want to allow
-additional comparisons. By default only alike types are compared,
-but one example of this might be to allow comparing dates (or only
-our custom dates) to be compared to their ISO string representation.
+With the availablity of custom types are in the picture, one common
+desire is to allow customising the way those identified types are
+matched.
 
-Let's stick with the example of enabling this for dates - and we
-can define this using the `addMatch()` API:
+By default only alike types are compared, but suppose that within
+our tests we want to allow comparing any `CustomDate` object against
+a, ISO time string.
+
+Let's stick with the exmaple from our earlier hypothetical - we can
+define allowing the comparison using the `addMatch()` API:
 
 ```js
 chaiBetterShallowDeepEqual.addMatch({
@@ -64,10 +73,10 @@ chaiBetterShallowDeepEqual.addMatch({
 });
 ```
 
-What we've described here is that if a date is compared to a string,
-to instead compare the ISO representation of the date against the
-string. In the test suite, this would allow you to use string froms
-of dates as your expectation:
+What we've defined here is when we see a `CustomDate` being compared
+to a string, to instead first convert it to an ISO string and then do
+the comparison. In the test suite, the effect is to allow expecations
+to be defined in a way that is much more easily read:
 
 ```js
 const fooDate = new Date(1583947016326);
