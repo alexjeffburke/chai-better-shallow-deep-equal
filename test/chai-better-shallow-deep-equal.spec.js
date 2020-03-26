@@ -67,6 +67,77 @@ describe("chai-better-shallow-deep-equal", () => {
     }, "not to throw");
   });
 
+  describe("when used with extensions", function() {
+    it("should allow preparing extras", () => {});
+
+    describe("forEach", () => {
+      it("should output the chai error inline", () => {
+        const betterCheck = chaiBetterShallowDeepEqual.withExtras().extras;
+
+        expect(
+          () => {
+            chaiExpect({
+              what: ["foo", "bar", "baz", "quux"]
+            }).to.shallowDeepEqual({
+              what: betterCheck.forEach(item => {
+                chaiExpect(item).to.have.length(3);
+              })
+            });
+          },
+          "to throw an error satisfying",
+          "to equal snapshot",
+          expect.unindent`
+            expected { what: [ 'foo', 'bar', 'baz', 'quux' ] } to satisfy
+            {
+              what: forEach(item => {
+                chaiExpect(item).to.have.length(3);
+              })
+            }
+
+            {
+              what: [
+                'foo',
+                'bar',
+                'baz',
+                'quux' // expected 'quux' to have a length of 3 but got 4
+              ]
+            }
+          `
+        );
+      });
+
+      it("should output an explicit error if the subject was not an array", () => {
+        const betterCheck = chaiBetterShallowDeepEqual.withExtras().extras;
+
+        expect(
+          () => {
+            chaiExpect({
+              what: {}
+            }).to.shallowDeepEqual({
+              what: betterCheck.forEach(item => {
+                chaiExpect(item).to.have.length(3);
+              })
+            });
+          },
+          "to throw an error satisfying",
+          "to equal snapshot",
+          expect.unindent`
+            expected { what: {} } to satisfy
+            {
+              what: forEach(item => {
+                chaiExpect(item).to.have.length(3);
+              })
+            }
+
+            {
+              what: {} // the property being comapared is not an array
+            }
+          `
+        );
+      });
+    });
+  });
+
   describe("with an added type", () => {
     it("should fail and use the type in the diff", () => {
       chaiBetterShallowDeepEqual.addType(testTypeDefinition);
