@@ -72,7 +72,7 @@ describe("chai-better-shallow-deep-equal", () => {
 
     describe("forEach", () => {
       it("should output the chai error inline", () => {
-        const betterCheck = chaiBetterShallowDeepEqual.withExtras().extras;
+        const betterCheck = chaiBetterShallowDeepEqual.withExtras();
 
         expect(
           () => {
@@ -107,7 +107,7 @@ describe("chai-better-shallow-deep-equal", () => {
       });
 
       it("should output an explicit error if the subject was not an array", () => {
-        const betterCheck = chaiBetterShallowDeepEqual.withExtras().extras;
+        const betterCheck = chaiBetterShallowDeepEqual.withExtras();
 
         expect(
           () => {
