@@ -18,11 +18,26 @@ Once installed the plugin can be simply imported and used as a plugin:
 
 ```js
 const chai = require("chai");
-const chaiExpect = chai.expect;
+const expect = chai.expect;
 
 chai.use(require("chai-better-shallow-deep-equal"));
+```
 
-chaiExpect({ foo: true, bar: 1 }).to.shallowDeepEqual({ foo: true });
+An additional `.shallowDeepEqual()` assertion is then available for use and
+on error an informative diff will be printed:
+
+
+```js
+expect({ foo: true, bar: 0 }).to.shallowDeepEqual({ foo: true, bar: 1 });
+```
+
+```output
+expected { foo: true, bar: 0 } to satisfy { foo: true, bar: 1 }
+
+{
+  foo: true,
+  bar: 0 // should equal 1
+}
 ```
 
 ## Customisation
@@ -71,7 +86,7 @@ define allowing the comparison using the `addMatch()` API:
 
 ```js
 chaiBetterShallowDeepEqual.addMatch({
-  leftType: "date",
+  leftType: "CustomDate",
   rightType: "string",
   handler: (lhs, rhs) => [lhs.toISOString(), rhs]
 });
@@ -85,7 +100,16 @@ to be defined in a way that is much more easily read:
 ```js
 const fooDate = new Date(1583947016326);
 
-chaiExpect({ fooDate }).to.shallowDeepEqual({
+expect({ fooDate }).to.shallowDeepEqual({
   fooDate: "2020-03-11T17:16:56.326Z"
 });
+```
+
+```output
+expected { fooDate: new Date('Wed, 11 Mar 2020 17:16:56.326 GMT') }
+to satisfy { fooDate: '2020-03-11T17:16:56.326Z' }
+
+{
+  fooDate: new Date('Wed, 11 Mar 2020 17:16:56.326 GMT') // should equal '2020-03-11T17:16:56.326Z'
+}
 ```
