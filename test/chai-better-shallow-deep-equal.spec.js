@@ -33,6 +33,7 @@ describe("chai-better-shallow-deep-equal", () => {
 
   beforeEach(() => {
     chaiBetterShallowDeepEqual._reset();
+    chaiBetterShallowDeepEqual._expect.output.preferredWidth = 100;
   });
 
   it("should pass", () => {
