@@ -1,6 +1,6 @@
 {
   "name": "chai-better-shallow-deep-equal",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Chai shallowDeepEqual replacement that wraps Unexpected",
   "main": "lib/chai-better-shallow-deep-equal.js",
   "files": [
