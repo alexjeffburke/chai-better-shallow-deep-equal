@@ -40,6 +40,52 @@ expected { foo: true, bar: 0 } to satisfy { foo: true, bar: 1 }
 }
 ```
 
+## Support for ES6 types
+
+The plugin has support for structurally comparing both Map and Set objects:
+
+```js
+expect(
+  new Map([
+    ["foo", 1],
+    ["bar", false]
+  ])
+).to.shallowDeepEqual(
+  new Map([
+    ["foo", 1],
+    ["bar", true]
+  ])
+);
+```
+
+```output
+expected Map([ ['foo', 1], ['bar', false] ])
+to satisfy Map([ ['foo', 1], ['bar', true] ])
+
+Map([
+  ['foo', 1,]
+  ['bar',
+    false // should equal true
+  ]
+])
+```
+
+```js
+expect(new Set(["foo", "baz"])).to.shallowDeepEqual(
+  new Set(["foo", "bar"])
+);
+```
+
+```output
+expected Set([ 'foo', 'baz' ]) to satisfy Set([ 'foo', 'bar' ])
+
+Set([
+  'foo',
+  'baz' // should be removed
+  // missing 'bar'
+])
+```
+
 ## Customisation
 
 ### Adding types

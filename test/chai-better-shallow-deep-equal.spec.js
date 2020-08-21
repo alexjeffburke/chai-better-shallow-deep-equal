@@ -67,6 +67,57 @@ describe("chai-better-shallow-deep-equal", () => {
     }, "not to throw");
   });
 
+  it("should allow using Map", () => {
+    expect(
+      () => {
+        chaiExpect(
+          new Map([
+            ["foo", 1],
+            ["bar", false]
+          ])
+        ).to.shallowDeepEqual(
+          new Map([
+            ["foo", 1],
+            ["bar", true]
+          ])
+        );
+      },
+      "to throw an error satisfying",
+      "to equal snapshot",
+      expect.unindent`
+        expected Map([ ['foo', 1], ['bar', false] ]) to satisfy Map([ ['foo', 1], ['bar', true] ])
+
+        Map([
+          ['foo', 1,]
+          ['bar',
+            false // should equal true
+          ]
+        ])
+      `
+    );
+  });
+
+  it("should allow using Set", () => {
+    expect(
+      () => {
+        chaiExpect(new Set(["foo", "baz"])).to.shallowDeepEqual(
+          new Set(["foo", "bar"])
+        );
+      },
+      "to throw an error satisfying",
+      "to equal snapshot",
+      expect.unindent`
+        expected Set([ 'foo', 'baz' ]) to satisfy Set([ 'foo', 'bar' ])
+
+        Set([
+          'foo',
+          'baz' // should be removed
+          // missing 'bar'
+        ])
+      `
+    );
+  });
+
   describe("with an added type", () => {
     it("should fail and use the type in the diff", () => {
       chaiBetterShallowDeepEqual.addType(testTypeDefinition);
