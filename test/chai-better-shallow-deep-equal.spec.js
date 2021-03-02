@@ -86,9 +86,9 @@ describe("chai-better-shallow-deep-equal", () => {
       "to throw an error satisfying",
       "to equal snapshot",
       expect.unindent`
-        expected Map([ ['foo', 1], ['bar', false] ]) to satisfy Map([ ['foo', 1], ['bar', true] ])
+        expected new Map[ ['foo', 1], ['bar', false] ]) to satisfy new Map[ ['foo', 1], ['bar', true] ])
 
-        Map([
+        new Map[
           ['foo', 1,]
           ['bar',
             false // should equal true
@@ -108,9 +108,9 @@ describe("chai-better-shallow-deep-equal", () => {
       "to throw an error satisfying",
       "to equal snapshot",
       expect.unindent`
-        expected Set([ 'foo', 'baz' ]) to satisfy Set([ 'foo', 'bar' ])
+        expected new Set([ 'foo', 'baz' ]) to satisfy new Set([ 'foo', 'bar' ])
 
-        Set([
+        new Set([
           'foo',
           'baz' // should be removed
           // missing 'bar'
