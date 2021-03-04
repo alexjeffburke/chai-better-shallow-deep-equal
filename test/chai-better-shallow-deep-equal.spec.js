@@ -24,7 +24,7 @@ describe("chai-better-shallow-deep-equal", () => {
       expect(cb, "to throw").then(err => {
         expect.errorMode = "nested";
         return expect.shift(
-          err.isUnexpected
+          err.isUnexpected || err.getErrorMessage
             ? err.getErrorMessage("text").toString()
             : err.message
         );
@@ -117,6 +117,52 @@ describe("chai-better-shallow-deep-equal", () => {
         ])
       `
     );
+  });
+
+  describe("when using the expect api", () => {
+    it("should not serialise the original stack trace", () => {
+      expect(
+        () => {
+          chaiExpect({ foo: "baz" }).to.shallowDeepEqual({ foo: "bar" });
+        },
+        "to throw an error satisfying",
+        "to equal snapshot",
+        expect.unindent`
+          expected { foo: 'baz' } to satisfy { foo: 'bar' }
+
+          {
+            foo: 'baz' // should equal 'bar'
+                       //
+                       // -baz
+                       // +bar
+          }
+        `
+      );
+    });
+  });
+
+  describe("when using the should api", () => {
+    it("should not serialise the original stack trace", () => {
+      chai.should();
+
+      expect(
+        () => {
+          ({ foo: "bar" }.should.shallowDeepEqual({ foo: "baz" }));
+        },
+        "to throw an error satisfying",
+        "to equal snapshot",
+        expect.unindent`
+          expected { foo: 'bar' } to satisfy { foo: 'baz' }
+
+          {
+            foo: 'bar' // should equal 'baz'
+                       //
+                       // -bar
+                       // +baz
+          }
+        `
+      );
+    });
   });
 
   describe("with an added type", () => {
