@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Chai shallowDeepEqual replacement that wraps Unexpected",
   "main": "lib/chai-better-shallow-deep-equal.js",
+  "types": "lib/chai-better-shallow-deep-equal.d.ts",
   "files": [
     "lib"
   ],
@@ -28,12 +29,16 @@
     "url": "https://github.com/alexjeffburke/chai-better-shallow-deep-equal.git"
   },
   "license": "MIT",
+  "peerDependencies": {
+    "chai": "^4.2.0"
+  },
   "dependencies": {
     "unexpected": "^12.0.0",
     "unexpected-map": "^3.1.0",
     "unexpected-set": "^3.3.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.15",
     "chai": "^4.2.0",
     "chai-better-shallow-deep-equal": "file:./",
     "eslint": "^6.8.0",
