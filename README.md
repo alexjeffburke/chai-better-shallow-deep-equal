@@ -40,6 +40,8 @@ expected { foo: true, bar: 0 } to satisfy { foo: true, bar: 1 }
 }
 ```
 
+The assertion works with all three chai APIs: `expect`, `should` and `assert`.
+
 ## Support for ES6 types
 
 The plugin has support for structurally comparing both Map and Set objects:
