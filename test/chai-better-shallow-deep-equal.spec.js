@@ -165,6 +165,30 @@ describe("chai-better-shallow-deep-equal", () => {
     });
   });
 
+  describe("when using the assert api", () => {
+    it("should not serialise the original stack trace", () => {
+      const assert = chai.assert;
+
+      expect(
+        () => {
+          assert.shallowDeepEqual({ foo: "bar" }, { foo: "baz" });
+        },
+        "to throw an error satisfying",
+        "to equal snapshot",
+        expect.unindent`
+          expected { foo: 'bar' } to satisfy { foo: 'baz' }
+
+          {
+            foo: 'bar' // should equal 'baz'
+                       //
+                       // -bar
+                       // +baz
+          }
+        `
+      );
+    });
+  });
+
   describe("with an added type", () => {
     it("should fail and use the type in the diff", () => {
       chaiBetterShallowDeepEqual.addType(testTypeDefinition);
