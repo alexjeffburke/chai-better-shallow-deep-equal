@@ -62,6 +62,20 @@ describe("chai-better-shallow-deep-equal", () => {
     );
   });
 
+  it("should fail and include custom message", () => {
+    expect(
+      () => {
+        chaiExpect({ foo: "bar" }, "boom").to.shallowDeepEqual({
+          foo: "baz"
+        });
+      },
+      "to throw",
+      expect.it(err =>
+        expect(String(err), "to start with", "AssertionError: boom:\n")
+      )
+    );
+  });
+
   it("should allow registering a type", () => {
     expect(() => {
       chaiBetterShallowDeepEqual.addType(testTypeDefinition);
